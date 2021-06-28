@@ -1,0 +1,52 @@
+// https://www.serverless.com/framework/docs/providers/aws/events/apigateway/
+
+service: business-it
+plugins:
+  - serverless-offline
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: eu-west-1
+  stage: dev
+  memorySize: 128
+  timeout: 5
+  endpointType: regional
+  environment:
+    NODE_ENV: ${opt:stage, self:provider.stage}
+  iamRoleStatements:
+    - Effect: Allow
+      Action: "*"
+      Resource: "*"
+functions:
+  rabbitmq_queue_consuming:
+    handler: src/api/rabbitmq_queue_consuming.js
+    description: consuming rabbitMQ queue
+    events:
+      - http:
+          path: test
+          method: post
+          integration: lambda
+          cors:
+            origin: "*"
+          request:
+            template:
+              application/json: >
+                {
+                "method": "$context.httpMethod",
+                "body" : $input.json('$'),
+                "headers": {
+                  #foreach($param in $input.params().header.keySet())
+                  "$param": "$util.escapeJavaScript($input.params().header.get($param))" #if($foreach.hasNext),#end
+                  #end
+                },
+                "queryParams": {
+                  #foreach($param in $input.params().querystring.keySet())
+                  "$param": "$util.escapeJavaScript($input.params().querystring.get($param))" #if($foreach.hasNext),#end
+                  #end
+                },
+                "pathParams": {
+                  #foreach($param in $input.params().path.keySet())
+                  "$param": "$util.escapeJavaScript($input.params().path.get($param))" #if($foreach.hasNext),#end
+                  #end
+                }
+                }

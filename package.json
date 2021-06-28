@@ -1,0 +1,23 @@
+{
+  "name": "tmh-business-it-sns-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mobilityhouse/tmh-business-it-sns-test.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mobilityhouse/tmh-business-it-sns-test/issues"
+  },
+  "homepage": "https://github.com/mobilityhouse/tmh-business-it-sns-test#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0"
+  }
+}
