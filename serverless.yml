@@ -1,15 +1,15 @@
-// https://www.serverless.com/framework/docs/providers/aws/events/apigateway/
+service: sns-test-lambda
 
-service: business-it
-plugins:
-  - serverless-offline
+frameworkVersion: '2'
+
 provider:
   name: aws
   runtime: nodejs14.x
   region: eu-west-1
   stage: dev
-  memorySize: 128
-  timeout: 5
+  lambdaHashingVersion: 20201221
+  memorySize: 128 # mb 
+  timeout: 60 #secounds
   endpointType: regional
   environment:
     NODE_ENV: ${opt:stage, self:provider.stage}
@@ -18,6 +18,11 @@ provider:
       Action: "*"
       Resource: "*"
 functions:
+  hello:
+    handler: handler.sms
+    memory : 128 # mb 
+    timeout : 60 #secounds
+
   rabbitmq_queue_consuming:
     handler: src/api/rabbitmq_queue_consuming.js
     description: consuming rabbitMQ queue
